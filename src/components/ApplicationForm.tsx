@@ -78,19 +78,19 @@ export function ApplicationForm({
   }
 
   return (
-    <div ref={formRef} id="apply" className="scroll-mt-28 border border-line bg-light px-5 py-10 sm:px-8 md:px-10">
-      <h2 className="text-3xl font-semibold">Apply now</h2>
-      <p className="mt-3 max-w-2xl text-muted">
+    <div ref={formRef} id="apply" className="scroll-mt-28 border-t border-ink/15 pt-14">
+      <p className="kicker text-ink">Application</p>
+      <h2 className="display mt-4 text-[clamp(2.4rem,4vw,3.8rem)] text-ink">Apply now</h2>
+      <p className="mt-4 max-w-2xl text-body">
         Tell us which role you want and what you want to be responsible for. If nothing listed fits, choose a speculative application.
       </p>
       {status === 'sent' ? (
-        <div role="status" className="mt-8 max-w-xl">
-          <p className="font-display text-2xl font-semibold text-navy">Thank you. Your application has been received.</p>
-          <p className="mt-3 text-muted">If we take it further, we will write to the email address you provided.</p>
+        <div role="status" className="mt-10 max-w-xl">
+          <p className="display text-4xl text-ink">Thank you. Your application has been received.</p>
+          <p className="mt-4 text-body">If we take it further, we will write to the email address you provided.</p>
           <Button
             type="button"
-            variant="outline"
-            className="mt-6"
+            className="mt-8"
             onClick={() => {
               setValues({ fullName: '', email: '', phone: '', position: positionId, introduction: '' });
               setErrors({});
@@ -101,9 +101,9 @@ export function ApplicationForm({
           </Button>
         </div>
       ) : (
-        <form onSubmit={onSubmit} noValidate className="mt-8 max-w-3xl space-y-5">
-          <p className="text-sm text-muted">Fields marked with * are required.</p>
-          <div className="grid gap-5 sm:grid-cols-2">
+        <form onSubmit={onSubmit} noValidate className="mt-10 max-w-3xl space-y-7">
+          <p className="text-sm text-body/70">Fields marked with * are required.</p>
+          <div className="grid gap-7 sm:grid-cols-2">
             <Field id="application-fullName" label="Full Name" required error={errors.fullName}>
               <input
                 id="application-fullName"
@@ -150,7 +150,7 @@ export function ApplicationForm({
                   value={values.position}
                   aria-invalid={Boolean(errors.position)}
                   aria-describedby={errors.position ? 'application-position-error' : undefined}
-                  className={`${controlClass(Boolean(errors.position))} appearance-none pr-10`}
+                  className={`${controlClass(Boolean(errors.position))} appearance-none pr-8`}
                   onChange={(event) => update('position', event.target.value)}
                 >
                   <option value="">Select a position</option>
@@ -161,7 +161,7 @@ export function ApplicationForm({
                   ))}
                   <option value="speculative">Speculative application</option>
                 </select>
-                <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-navy" aria-hidden="true" />
+                <ChevronDown className="pointer-events-none absolute top-1/2 right-0 h-4 w-4 -translate-y-1/2 text-ink" aria-hidden="true" />
               </div>
             </Field>
           </div>
@@ -177,8 +177,8 @@ export function ApplicationForm({
               onChange={(event) => update('introduction', event.target.value)}
             />
           </Field>
-          <Button type="submit" variant="accent" disabled={status === 'submitting'}>
-            {status === 'submitting' ? 'Sending…' : 'Submit application'}
+          <Button type="submit" disabled={status === 'submitting'}>
+            {status === 'submitting' ? 'Sending' : 'Submit application'}
           </Button>
         </form>
       )}

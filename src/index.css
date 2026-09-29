@@ -1,30 +1,30 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-navy: #0b1f33;
-  --color-charcoal: #1c252e;
-  --color-accent: #e8752a;
-  --color-accent-ink: #9a3e0e;
-  --color-muted: #3e4c59;
-  --color-light: #f5f6f7;
-  --color-line: #e2e5e8;
-  --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #111111;
+  --color-ink-2: #1b1b1b;
+  --color-paper: #f5f3ee;
+  --color-sand: #e9e5dd;
+  --color-gold: #c8a46b;
+  --color-mute: #a7a7a7;
+  --color-body: #2c2b28;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 5rem;
   }
 
   body {
     margin: 0;
-    background: #ffffff;
-    color: var(--color-charcoal);
+    background: var(--color-paper);
+    color: var(--color-body);
     font-family: var(--font-sans);
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    font-size: 1rem;
+    line-height: 1.7;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -33,6 +33,11 @@
   body,
   #root {
     max-width: 100%;
+    overflow-x: clip;
+  }
+
+  #root {
+    min-height: 100%;
   }
 
   img {
@@ -44,13 +49,14 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    color: var(--color-navy);
-    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
   }
 
   ::selection {
-    background: #0b1f33;
-    color: #ffffff;
+    background: #c8a46b;
+    color: #111111;
   }
 
   :focus {
@@ -58,36 +64,64 @@
   }
 
   :focus-visible {
-    outline: 2px solid #0b1f33;
+    outline: 2px solid #111111;
     outline-offset: 3px;
   }
 
-  footer :focus-visible {
-    outline-color: #ffffff;
+  [id] {
+    scroll-margin-top: 5.5rem;
   }
 }
 
-.skip-link {
-  position: absolute;
-  left: 1rem;
-  top: -4rem;
-  z-index: 80;
-  background: #ffffff;
-  color: #0b1f33;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
+@layer components {
+  .kicker {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    line-height: 1.45;
+    text-transform: uppercase;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 80;
+    background: #f5f3ee;
+    color: #111111;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  .dark-control {
+    color-scheme: dark;
+  }
 }
 
-.skip-link:focus {
-  top: 1rem;
+header :focus-visible,
+footer :focus-visible,
+.tone-dark :focus-visible {
+  outline-color: #c8a46b;
 }
 
 html.motion .reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(28px);
   transition:
-    opacity 600ms ease,
-    transform 600ms ease;
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html.motion .reveal.is-visible {
@@ -95,26 +129,72 @@ html.motion .reveal.is-visible {
   transform: none;
 }
 
+html.motion .media-reveal {
+  clip-path: inset(14% 0 0 0);
+  transition: clip-path 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.motion .media-reveal.is-visible {
+  clip-path: inset(0);
+}
+
 html.motion .page-enter {
-  animation: page-enter 360ms ease;
+  animation: page-enter 720ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes page-enter {
   from {
     opacity: 0;
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
+    transform: none;
   }
 }
 
-html.motion .media-zoom img {
-  transition: transform 700ms ease;
+html.motion .arrow {
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html.motion .media-zoom:hover img,
-html.motion .media-zoom:focus-visible img {
-  transform: scale(1.045);
+html.motion .group:hover .arrow,
+html.motion .group:focus-visible .arrow {
+  transform: translateX(6px);
+}
+
+html.motion .link-shift {
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.motion .group:hover .link-shift,
+html.motion .group:focus-visible .link-shift {
+  transform: translateX(0.55rem);
+}
+
+html.motion .media-frame img {
+  transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.motion .media-frame:hover img,
+html.motion .media-frame:focus-visible img {
+  transform: scale(1.06);
+}
+
+html.motion .scroll-line {
+  transform-origin: top;
+  animation: scroll-line 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0.25);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

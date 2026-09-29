@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Button } from '../components/Button';
+import { ArrowLink } from '../components/ArrowLink';
 import { Container } from '../components/Container';
-import { PageHeader } from '../components/PageHeader';
+import { Hero } from '../components/Hero';
+import { Reveal } from '../components/Reveal';
 import { getProject } from '../data/projects';
 import { services } from '../data/services';
+import { cn } from '../lib/cn';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export function ServicesPage() {
@@ -14,88 +16,86 @@ export function ServicesPage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="What we do"
-        title="Services led by the people who will deliver them."
-        intro="Vertex is appointed for the whole of a project or for the part that carries the risk. These are the services clients ask us to lead."
+      <Hero
+        kicker="Services"
+        title="Six disciplines. One accountable team."
+        lede="Vertex is appointed for the whole of a project or for the part that carries the risk. These are the services clients ask us to lead."
+        image={{
+          src: '/images/concrete.jpg',
+          alt: 'Crew tying reinforcement cages on a structure under construction',
+        }}
       />
 
-      <Container>
-        <nav aria-label="Services on this page" className="border-b border-line py-6">
-          <ul className="flex flex-wrap gap-x-6 gap-y-3">
+      <nav aria-label="Services on this page" className="border-b border-ink/10 bg-paper">
+        <Container className="py-5">
+          <div className="flex gap-x-6 gap-y-3 overflow-x-auto">
             {services.map((service) => (
-              <li key={service.id}>
-                <a
-                  href={`#${service.id}`}
-                  className="text-sm font-semibold text-navy underline decoration-transparent underline-offset-4 hover:decoration-accent"
-                >
-                  {service.number} {service.title}
-                </a>
-              </li>
+              <a key={service.id} href={`#${service.id}`} className="kicker shrink-0 py-2 text-ink/70 hover:text-ink">
+                {service.number} {service.title}
+              </a>
             ))}
-          </ul>
-        </nav>
+          </div>
+        </Container>
+      </nav>
 
-        {services.map((service) => {
-          const related = getProject(service.relatedSlug);
-          return (
-            <article key={service.id} id={service.id} className="scroll-mt-28 border-b border-line py-14 md:py-20">
-              <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-                <div className="lg:col-span-4">
-                  <p className="font-display text-sm font-semibold tracking-[0.16em] text-accent-ink">{service.number}</p>
-                  <h2 className="mt-3 text-3xl font-semibold md:text-4xl">{service.title}</h2>
-                </div>
-                <div className="lg:col-span-8">
-                  <div className="space-y-4 text-muted">
+      {services.map((service, index) => {
+        const related = getProject(service.relatedSlug);
+        const flipped = index % 2 === 1;
+        return (
+          <article key={service.id} id={service.id} className={cn('scroll-mt-24', index % 2 === 0 ? 'bg-paper' : 'bg-sand')}>
+            <div className="grid lg:grid-cols-2">
+              <Reveal variant="media" className={cn(flipped && 'lg:order-2')}>
+                {related ? (
+                  <img
+                    src={related.hero.src}
+                    alt={related.hero.alt}
+                    className="h-[70vw] max-h-[520px] min-h-[280px] w-full object-cover lg:h-full lg:max-h-none lg:min-h-[640px]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : null}
+              </Reveal>
+              <div className={cn('flex flex-col justify-center px-5 py-16 sm:px-8 lg:px-14 lg:py-24', flipped && 'lg:order-1')}>
+                <Reveal>
+                  <p className="display text-7xl text-ink/20 md:text-8xl">{service.number}</p>
+                  <h2 className="display mt-4 text-[clamp(2.4rem,4vw,4rem)] text-ink">{service.title}</h2>
+                  <div className="mt-6 max-w-xl space-y-4 text-base leading-relaxed text-body">
                     {service.description.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
-                  <h3 className="mt-8 text-lg font-semibold">Key capabilities</h3>
-                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <h3 className="kicker mt-10 text-ink/60">Capabilities</h3>
+                  <ul className="mt-4 max-w-xl">
                     {service.capabilities.map((capability) => (
-                      <li key={capability} className="flex gap-3 border-t border-line pt-3 text-charcoal">
-                        <span className="mt-2 h-2 w-2 shrink-0 bg-accent" aria-hidden="true" />
-                        <span>{capability}</span>
+                      <li key={capability} className="border-t border-ink/15 py-3 text-sm text-ink">
+                        {capability}
                       </li>
                     ))}
                   </ul>
                   {related ? (
-                    <Link
-                      to={`/projects/${related.slug}`}
-                      className="media-zoom group mt-8 grid grid-cols-1 border border-line bg-white sm:grid-cols-[180px_minmax(0,1fr)]"
-                    >
-                      <img
-                        src={related.hero.src}
-                        alt={related.hero.alt}
-                        className="aspect-[16/10] h-full w-full object-cover sm:aspect-auto sm:min-h-full"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <span className="flex flex-col justify-center px-5 py-5">
-                        <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Related project</span>
-                        <span className="mt-2 font-display text-xl font-semibold text-navy transition-colors group-hover:text-accent-ink">
-                          {related.title}
+                    <p className="mt-8 text-sm text-body">
+                      <span className="kicker text-ink/70">Related project</span>
+                      <Link to={`/projects/${related.slug}`} className="group mt-3 flex items-center gap-3 text-ink">
+                        <span className="display text-3xl">{related.title}</span>
+                        <span aria-hidden="true" className="arrow">
+                          →
                         </span>
-                        <span className="mt-1 text-sm text-muted">
-                          {related.location}
-                          <span aria-hidden="true"> · </span>
-                          {related.year}
-                        </span>
-                      </span>
-                    </Link>
+                      </Link>
+                    </p>
                   ) : null}
-                  <div className="mt-8">
-                    <Button to={`/contact?type=${encodeURIComponent(service.title)}`} variant="outline">
-                      Discuss this service
-                    </Button>
-                  </div>
-                </div>
+                  <ArrowLink
+                    to={`/contact?type=${encodeURIComponent(service.title)}`}
+                    surface="light"
+                    className="mt-8"
+                  >
+                    Discuss this service
+                  </ArrowLink>
+                </Reveal>
               </div>
-            </article>
-          );
-        })}
-      </Container>
+            </div>
+          </article>
+        );
+      })}
     </>
   );
 }

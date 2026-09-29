@@ -1,59 +1,55 @@
 import { Link } from 'react-router-dom';
 import { company, footerNav, socialLinks } from '../data/site';
 import { Container } from './Container';
-import { Logo } from './Logo';
 
 export function Footer() {
   return (
-    <footer className="bg-navy text-white">
-      <Container className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4 lg:py-20">
-        <div>
-          <Logo tone="light" />
-          <p className="mt-5 max-w-xs text-white/75">{company.tagline}</p>
-        </div>
-        <div>
-          <h2 className="text-xs font-semibold tracking-[0.16em] text-white/50">NAVIGATION</h2>
-          <ul className="mt-4 space-y-2">
-            {footerNav.map((link) => (
-              <li key={link.to}>
-                <Link to={link.to} className="text-white/85 transition-colors hover:text-white">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h2 className="text-xs font-semibold tracking-[0.16em] text-white/50">CONTACT</h2>
-          <ul className="mt-4 space-y-2 text-white/85">
-            <li>{company.locationShort}</li>
-            <li>
-              <a className="underline decoration-white/30 underline-offset-4 hover:decoration-white" href={`mailto:${company.email}`}>
-                {company.email}
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h2 className="text-xs font-semibold tracking-[0.16em] text-white/50">SOCIAL</h2>
-          <ul className="mt-4 space-y-2">
-            {socialLinks.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-white/85 transition-colors hover:text-white"
-                >
-                  {link.label}
+    <footer className="tone-dark bg-ink text-white">
+      <Container className="pt-16 pb-8 md:pt-24">
+        <Link to="/" className="display block max-w-full text-[clamp(4.4rem,16vw,12rem)] leading-[0.8] tracking-[-0.045em] text-white">
+          VERTEX
+        </Link>
+        <p className="mt-6 max-w-md text-base text-mute">{company.tagline}</p>
+
+        <div className="mt-14 grid gap-12 border-t border-white/10 pt-10 sm:grid-cols-2 lg:grid-cols-3">
+          <nav aria-label="Footer">
+            <p className="kicker text-mute">Index</p>
+            <ul className="mt-5 space-y-2">
+              {footerNav.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="text-white/85 transition-colors hover:text-white">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div>
+            <p className="kicker text-mute">Contact</p>
+            <ul className="mt-5 space-y-2 text-white/85">
+              <li>{company.locationShort}</li>
+              <li>
+                <a className="underline decoration-white/25 underline-offset-4 hover:decoration-white" href={`mailto:${company.email}`}>
+                  {company.email}
                 </a>
               </li>
-            ))}
-          </ul>
+            </ul>
+          </div>
+          <div>
+            <p className="kicker text-mute">Social</p>
+            <ul className="mt-5 space-y-2">
+              {socialLinks.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} target="_blank" rel="noreferrer" className="text-white/85 transition-colors hover:text-white">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </Container>
-      <div className="border-t border-white/15">
-        <Container className="flex flex-col gap-3 py-5 text-sm text-white/65 sm:flex-row sm:items-center sm:justify-between">
+
+        <div className="mt-14 flex flex-col gap-3 border-t border-white/10 py-6 text-sm text-mute sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Vertex Construction & Engineering</p>
           <ul className="flex gap-5">
             <li>
@@ -67,8 +63,8 @@ export function Footer() {
               </Link>
             </li>
           </ul>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </footer>
   );
 }

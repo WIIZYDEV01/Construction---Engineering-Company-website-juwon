@@ -1,8 +1,6 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { ContactForm } from '../components/ContactForm';
 import { Container } from '../components/Container';
-import { PageHeader } from '../components/PageHeader';
 import { company } from '../data/site';
 import { usePageMeta } from '../hooks/usePageMeta';
 
@@ -16,55 +14,34 @@ export function ContactPage() {
   const initialProjectType = params.get('type') ?? '';
 
   return (
-    <>
-      <PageHeader
-        eyebrow="Contact"
-        title="Let's build something remarkable."
-        intro="Tell us what you are trying to build, and the constraint that will decide whether it succeeds. A director will respond."
-      />
-      <section className="py-14 md:py-20">
-        <Container>
-          <div className="grid gap-14 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <h2 className="text-2xl font-semibold">London office</h2>
-              <ul className="mt-6 space-y-5">
-                <li className="flex gap-3">
-                  <MapPin className="mt-1 h-5 w-5 shrink-0 text-navy" aria-hidden="true" />
-                  <div>
-                    <p className="font-semibold text-navy">Address</p>
-                    <p className="text-muted">{company.location}</p>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <Mail className="mt-1 h-5 w-5 shrink-0 text-navy" aria-hidden="true" />
-                  <div>
-                    <p className="font-semibold text-navy">Email</p>
-                    <a className="text-muted underline decoration-accent decoration-2 underline-offset-4" href={`mailto:${company.email}`}>
-                      {company.email}
-                    </a>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <Phone className="mt-1 h-5 w-5 shrink-0 text-navy" aria-hidden="true" />
-                  <div>
-                    <p className="font-semibold text-navy">Phone</p>
-                    <a className="text-muted underline decoration-accent decoration-2 underline-offset-4" href={company.phoneHref}>
-                      {company.phoneDisplay}
-                    </a>
-                  </div>
-                </li>
-              </ul>
-              <p className="mt-8 text-sm text-muted">Office hours: {company.hours}</p>
-            </div>
-            <div className="lg:col-span-8">
-              <h2 className="text-2xl font-semibold">Project enquiry</h2>
-              <div className="mt-6">
-                <ContactForm initialProjectType={initialProjectType} />
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-    </>
+    <div className="tone-dark flex flex-1 flex-col bg-ink text-white">
+      <Container className="grid flex-1 gap-16 pt-36 pb-20 lg:grid-cols-12 lg:pt-44 lg:pb-28">
+        <div className="lg:col-span-5">
+          <p className="kicker text-gold">Contact</p>
+          <h1 className="display mt-5 text-[clamp(3rem,6vw,5.4rem)] text-white">Have a project worth building?</h1>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-white/75">
+            Tell us what you&apos;re planning. Our team will get back to you to discuss the next step.
+          </p>
+          <address className="mt-12 space-y-3 text-base not-italic text-white/85">
+            <p>{company.location}</p>
+            <p>
+              <a className="underline decoration-white/30 underline-offset-4 hover:decoration-white" href={`mailto:${company.email}`}>
+                {company.email}
+              </a>
+            </p>
+            <p>
+              <a className="underline decoration-white/30 underline-offset-4 hover:decoration-white" href={company.phoneHref}>
+                {company.phoneDisplay}
+              </a>
+            </p>
+          </address>
+          <p className="mt-8 text-sm text-mute">Office hours: {company.hours}</p>
+        </div>
+        <div className="lg:col-span-6 lg:col-start-7">
+          <h2 className="sr-only">Project enquiry</h2>
+          <ContactForm initialProjectType={initialProjectType} />
+        </div>
+      </Container>
+    </div>
   );
 }
