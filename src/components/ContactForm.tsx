@@ -60,10 +60,7 @@ function validate(values: Values): Errors {
 }
 
 export function ContactForm({ initialProjectType = '' }: { initialProjectType?: string }) {
-  const startingType = projectTypes.includes(initialProjectType as (typeof projectTypes)[number])
-    ? initialProjectType
-    : '';
-
+  const startingType = projectTypes.includes(initialProjectType as (typeof projectTypes)[number]) ? initialProjectType : '';
   const [values, setValues] = useState<Values>({ ...empty, projectType: startingType });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'sent'>('idle');
@@ -94,14 +91,15 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
 
   if (status === 'sent') {
     return (
-      <div role="status" className="border border-line bg-light px-6 py-12 sm:px-10">
-        <p className="font-display text-3xl font-semibold text-navy">Thank you. Your enquiry has been received.</p>
-        <p className="mt-4 max-w-lg text-muted">
-          A director will reply using the details you provided. If the matter is urgent, call the London office.
+      <div role="status" className="border border-white/15 px-6 py-14 sm:px-10">
+        <p className="kicker text-gold">Enquiry sent</p>
+        <p className="display mt-5 text-[clamp(2.2rem,4vw,3.4rem)] text-white">Thank you. Your enquiry has been received.</p>
+        <p className="mt-5 max-w-lg text-white/75">
+          Our team will reply using the details you provided. If the matter is urgent, call the London office.
         </p>
         <Button
           type="button"
-          variant="outline"
+          surface="dark"
           className="mt-8"
           onClick={() => {
             setValues({ ...empty, projectType: startingType });
@@ -116,10 +114,10 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-5">
-      <p className="text-sm text-muted">Fields marked with * are required.</p>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="fullName" label="Full Name" required error={errors.fullName}>
+    <form onSubmit={onSubmit} noValidate className="space-y-7">
+      <p className="text-sm text-white/60">Fields marked with * are required.</p>
+      <div className="grid gap-7 sm:grid-cols-2">
+        <Field id="fullName" label="Full Name" required error={errors.fullName} surface="dark">
           <input
             id="fullName"
             name="fullName"
@@ -127,11 +125,11 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
             value={values.fullName}
             aria-invalid={Boolean(errors.fullName)}
             aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-            className={controlClass(Boolean(errors.fullName))}
+            className={controlClass(Boolean(errors.fullName), 'dark')}
             onChange={(event) => update('fullName', event.target.value)}
           />
         </Field>
-        <Field id="email" label="Email" required error={errors.email}>
+        <Field id="email" label="Email" required error={errors.email} surface="dark">
           <input
             id="email"
             name="email"
@@ -140,11 +138,11 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
             value={values.email}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'email-error' : undefined}
-            className={controlClass(Boolean(errors.email))}
+            className={controlClass(Boolean(errors.email), 'dark')}
             onChange={(event) => update('email', event.target.value)}
           />
         </Field>
-        <Field id="company" label="Company" error={errors.company}>
+        <Field id="company" label="Company" error={errors.company} surface="dark">
           <input
             id="company"
             name="company"
@@ -152,11 +150,11 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
             value={values.company}
             aria-invalid={Boolean(errors.company)}
             aria-describedby={errors.company ? 'company-error' : undefined}
-            className={controlClass(Boolean(errors.company))}
+            className={controlClass(Boolean(errors.company), 'dark')}
             onChange={(event) => update('company', event.target.value)}
           />
         </Field>
-        <Field id="phone" label="Phone" error={errors.phone}>
+        <Field id="phone" label="Phone" error={errors.phone} surface="dark">
           <input
             id="phone"
             name="phone"
@@ -165,13 +163,13 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
             value={values.phone}
             aria-invalid={Boolean(errors.phone)}
             aria-describedby={errors.phone ? 'phone-error' : undefined}
-            className={controlClass(Boolean(errors.phone))}
+            className={controlClass(Boolean(errors.phone), 'dark')}
             onChange={(event) => update('phone', event.target.value)}
           />
         </Field>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="projectType" label="Project Type" required error={errors.projectType}>
+      <div className="grid gap-7 sm:grid-cols-2">
+        <Field id="projectType" label="Project Type" required error={errors.projectType} surface="dark">
           <div className="relative">
             <select
               id="projectType"
@@ -179,7 +177,7 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
               value={values.projectType}
               aria-invalid={Boolean(errors.projectType)}
               aria-describedby={errors.projectType ? 'projectType-error' : undefined}
-              className={`${controlClass(Boolean(errors.projectType))} appearance-none pr-10`}
+              className={`${controlClass(Boolean(errors.projectType), 'dark')} appearance-none pr-8`}
               onChange={(event) => update('projectType', event.target.value)}
             >
               <option value="">Select a project type</option>
@@ -189,16 +187,16 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-navy" aria-hidden="true" />
+            <ChevronDown className="pointer-events-none absolute top-1/2 right-0 h-4 w-4 -translate-y-1/2 text-white/70" aria-hidden="true" />
           </div>
         </Field>
-        <Field id="budget" label="Estimated Budget" error={errors.budget}>
+        <Field id="budget" label="Estimated Budget" error={errors.budget} surface="dark">
           <div className="relative">
             <select
               id="budget"
               name="budget"
               value={values.budget}
-              className={`${controlClass(false)} appearance-none pr-10`}
+              className={`${controlClass(false, 'dark')} appearance-none pr-8`}
               onChange={(event) => update('budget', event.target.value)}
             >
               <option value="">Select a budget range</option>
@@ -208,11 +206,11 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-navy" aria-hidden="true" />
+            <ChevronDown className="pointer-events-none absolute top-1/2 right-0 h-4 w-4 -translate-y-1/2 text-white/70" aria-hidden="true" />
           </div>
         </Field>
       </div>
-      <Field id="message" label="Message" required error={errors.message}>
+      <Field id="message" label="Message" required error={errors.message} surface="dark">
         <textarea
           id="message"
           name="message"
@@ -220,12 +218,12 @@ export function ContactForm({ initialProjectType = '' }: { initialProjectType?: 
           value={values.message}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? 'message-error' : undefined}
-          className={controlClass(Boolean(errors.message))}
+          className={controlClass(Boolean(errors.message), 'dark')}
           onChange={(event) => update('message', event.target.value)}
         />
       </Field>
-      <Button type="submit" variant="accent" disabled={status === 'submitting'}>
-        {status === 'submitting' ? 'Sending…' : 'Send enquiry'}
+      <Button type="submit" surface="dark" disabled={status === 'submitting'}>
+        {status === 'submitting' ? 'Sending' : 'Send enquiry'}
       </Button>
     </form>
   );

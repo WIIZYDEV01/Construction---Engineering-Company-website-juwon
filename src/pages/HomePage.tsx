@@ -1,39 +1,15 @@
-import { Compass, Leaf, ShieldCheck, Timer } from 'lucide-react';
-import { Button, TextLink } from '../components/Button';
+import { ArrowLink } from '../components/ArrowLink';
 import { Container } from '../components/Container';
-import { CtaBand } from '../components/CtaBand';
-import { ProjectGrid } from '../components/ProjectGrid';
+import { Hero } from '../components/Hero';
+import { ProcessTimeline } from '../components/ProcessTimeline';
+import { ProjectShowcase } from '../components/ProjectShowcase';
 import { Reveal } from '../components/Reveal';
 import { SectionHeading } from '../components/SectionHeading';
-import { ServiceItem } from '../components/ServiceItem';
+import { ServiceList } from '../components/ServiceList';
 import { StatsSection } from '../components/StatsSection';
-import { featuredProjects } from '../data/projects';
-import { services } from '../data/services';
-import { homeStats } from '../data/site';
+import { homeProjects } from '../data/projects';
+import { homeStats, principles } from '../data/site';
 import { usePageMeta } from '../hooks/usePageMeta';
-
-const reasons = [
-  {
-    title: 'Safety First',
-    text: 'Every site is led against a written plan for risk, supervision and the authority to stop work. Hours, incidents and close calls are reviewed in the same meeting as the programme.',
-    icon: ShieldCheck,
-  },
-  {
-    title: 'Technical Excellence',
-    text: 'Engineers and construction managers work as one team. Details are resolved before they reach the workface. When the ground disagrees with the drawing, the decision is made by someone who understands both.',
-    icon: Compass,
-  },
-  {
-    title: 'Reliable Delivery',
-    text: 'Programmes are built from the interfaces that usually slip: access, utilities, long-lead items and approvals. Clients see the same report every month, with changes explained rather than absorbed.',
-    icon: Timer,
-  },
-  {
-    title: 'Sustainable Construction',
-    text: 'We cut waste, specify materials with a clear end of life, and plan the job so neighbours and operators are not an afterthought. Certification targets are written into procurement, not added at handover.',
-    icon: Leaf,
-  },
-];
 
 export function HomePage() {
   usePageMeta(
@@ -43,128 +19,105 @@ export function HomePage() {
 
   return (
     <>
-      <section className="relative lg:min-h-[calc(100vh-4.5rem)]">
-        <Container className="relative z-10 lg:grid lg:min-h-[calc(100vh-4.5rem)] lg:grid-cols-2">
-          <div className="flex flex-col justify-center py-14 sm:py-16 lg:py-20 lg:pr-16">
-            <p className="flex items-center gap-3 text-[11px] font-semibold tracking-[0.18em] text-accent-ink sm:text-xs">
-              <span className="inline-block h-px w-8 shrink-0 bg-accent" aria-hidden="true" />
-              CONSTRUCTION • ENGINEERING • INFRASTRUCTURE
-            </p>
-            <h1 className="mt-5 max-w-xl text-[2.35rem] leading-[1.08] font-semibold sm:text-5xl xl:text-[3.4rem]">
-              Building the infrastructure behind tomorrow.
-            </h1>
-            <p className="mt-6 max-w-md text-lg text-muted">
-              Vertex Construction & Engineering delivers complex construction and infrastructure projects with precision, safety and long-term thinking.
-            </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Button to="/projects">View our projects</Button>
-              <Button to="/contact" variant="outline">
-                Start a conversation
-              </Button>
-            </div>
+      <Hero
+        size="home"
+        scrollCue
+        kicker="Construction / Engineering / Infrastructure"
+        title={
+          <>
+            We build the structures <span className="italic">that move cities forward.</span>
+          </>
+        }
+        lede="From complex infrastructure to ambitious commercial developments, Vertex brings engineering precision and construction expertise to projects built for the long term."
+        image={{
+          src: '/images/steel.jpg',
+          alt: 'Tower crane erecting a steel frame on a building under construction',
+        }}
+        primary={{ to: '/projects', label: 'Explore projects' }}
+        secondary={{ to: '/contact', label: 'Start a conversation' }}
+      />
+
+      <section className="bg-paper" aria-labelledby="who-heading">
+        <div className="grid lg:grid-cols-12">
+          <div className="flex flex-col justify-center px-5 py-20 sm:px-8 lg:col-span-6 lg:px-12 lg:py-28 xl:px-16">
+            <Reveal>
+              <p className="kicker text-ink">01 / Who we are</p>
+              <h2 id="who-heading" className="display mt-6 text-[clamp(2.15rem,4vw,4rem)] text-ink">
+                Construction is more than putting things together. It is shaping how people move, work and live.
+              </h2>
+              <p className="mt-8 max-w-md text-base leading-relaxed text-body">
+                Vertex was founded in London in 2012 for work that crosses disciplines: commercial buildings with civil interfaces, infrastructure in streets that stay open, and industrial facilities that cannot stop while they grow.
+              </p>
+              <ArrowLink to="/about" surface="light" className="mt-10">
+                Discover our approach
+              </ArrowLink>
+            </Reveal>
           </div>
-        </Container>
-        <div className="relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-          <img
-            src="/images/hero.jpg"
-            alt="Project team reviewing a reinforced concrete deck on a large construction site"
-            className="h-[300px] w-full object-cover sm:h-[440px] lg:h-full"
-            fetchPriority="high"
-          />
+          <Reveal variant="media" className="lg:col-span-6">
+            <img
+              src="/images/architecture.jpg"
+              alt="Contemporary building with a glazed wall and metal-clad volumes"
+              className="h-[72vw] max-h-[520px] min-h-[280px] w-full object-cover lg:h-full lg:max-h-none lg:min-h-[720px]"
+              loading="lazy"
+              decoding="async"
+            />
+          </Reveal>
         </div>
+      </section>
+
+      <section className="bg-paper pb-8" aria-labelledby="projects-heading">
+        <Container className="pt-8 pb-6 md:pt-4">
+          <h2 id="projects-heading" className="kicker text-ink">
+            02 / Selected work
+          </h2>
+        </Container>
+        <ProjectShowcase projects={homeProjects} />
+        <Container className="py-10">
+          <ArrowLink to="/projects" surface="light">
+            All projects
+          </ArrowLink>
+        </Container>
       </section>
 
       <StatsSection stats={homeStats} label="Company figures" />
 
-      <section className="py-20 md:py-28" aria-labelledby="about-preview-heading">
-        <Container>
-          <Reveal>
-            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-              <div className="overflow-hidden bg-light">
-                <img
-                  src="/images/about.jpg"
-                  alt="Steel fixers working among reinforcement on a concrete slab"
-                  className="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div>
-                <h2 id="about-preview-heading" className="text-3xl font-semibold md:text-4xl">
-                  Engineering confidence into every project.
-                </h2>
-                <div className="mt-6 space-y-4 text-muted">
-                  <p>
-                    Vertex was founded in London in 2012 to deliver work that does not sit neatly in one discipline. A commercial building that depends on a civil interface. An infrastructure scheme that has to be built in a street that stays open. An industrial plant that has to keep producing while it expands.
-                  </p>
-                  <p>
-                    The people leading that work bring more than fifteen years of construction and engineering experience. Safety, quality and a measured approach to carbon sit inside the programme, not in a report written after the fact. Clients return because the same team is still accountable when the difficult part of the job arrives.
-                  </p>
-                </div>
-                <div className="mt-8">
-                  <TextLink to="/about">Meet Vertex →</TextLink>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="border-t border-line py-20 md:py-28" aria-labelledby="services-heading">
+      <section className="bg-paper py-20 md:py-28" aria-labelledby="services-heading">
         <Container>
           <Reveal>
             <SectionHeading
               id="services-heading"
-              eyebrow="Services"
-              title="Six ways we are appointed."
-              intro="Vertex leads the whole of a project, or the part that carries the risk."
-              action={<TextLink to="/services">All services →</TextLink>}
+              index="03"
+              label="Services"
+              title="What clients appoint us to lead."
+              action={
+                <ArrowLink to="/services" surface="light">
+                  All services
+                </ArrowLink>
+              }
             />
-            <ul className="mt-10 border-t border-line">
-              {services.map((service) => (
-                <li key={service.id}>
-                  <ServiceItem
-                    number={service.number}
-                    title={service.title}
-                    description={service.summary}
-                    href={`/services#${service.id}`}
-                  />
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="bg-light py-20 md:py-28" aria-labelledby="projects-heading">
-        <Container>
-          <Reveal>
-            <SectionHeading
-              id="projects-heading"
-              eyebrow="Selected work"
-              title="Featured projects"
-              intro="Recent building, civil and industrial work in the cities where our clients operate."
-              action={<TextLink to="/projects">View all projects →</TextLink>}
-            />
-            <div className="mt-12">
-              <ProjectGrid projects={featuredProjects} />
+            <div className="mt-12 md:mt-16">
+              <ServiceList />
             </div>
           </Reveal>
         </Container>
       </section>
 
-      <section className="py-20 md:py-28" aria-labelledby="why-heading">
+      <section className="tone-dark bg-ink py-20 text-white md:py-28" aria-labelledby="studio-heading">
         <Container>
           <Reveal>
-            <h2 id="why-heading" className="text-3xl font-semibold md:text-4xl">
-              Why Vertex
+            <p className="kicker text-gold">04 / Studio</p>
+            <h2 id="studio-heading" className="display mt-5 max-w-[12em] text-[clamp(2.6rem,5.4vw,5rem)] text-white">
+              Built with precision. Delivered with purpose.
             </h2>
-            <ul className="mt-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
-              {reasons.map((reason) => (
-                <li key={reason.title}>
-                  <reason.icon className="h-6 w-6 text-navy" strokeWidth={1.5} aria-hidden="true" />
-                  <h3 className="mt-5 text-xl font-semibold">{reason.title}</h3>
-                  <p className="mt-3 text-muted">{reason.text}</p>
+            <p className="mt-8 max-w-xl text-base leading-relaxed text-mute">
+              Vertex combines construction expertise, engineering discipline and project management to deliver complex projects safely and efficiently.
+            </p>
+            <ul className="mt-16 grid gap-12 lg:grid-cols-3 lg:gap-10">
+              {principles.map((principle) => (
+                <li key={principle.number} className="border-t border-white/15 pt-6">
+                  <p className="kicker text-gold">{principle.number}</p>
+                  <h3 className="display mt-4 text-5xl text-white md:text-6xl">{principle.title}</h3>
+                  <p className="mt-4 max-w-sm text-sm leading-relaxed text-mute">{principle.text}</p>
                 </li>
               ))}
             </ul>
@@ -172,11 +125,7 @@ export function HomePage() {
         </Container>
       </section>
 
-      <CtaBand
-        title="Planning a complex build?"
-        text="Tell us about the site, the constraints and the outcome you need. A director will come back with a clear view of how Vertex can help."
-        action="Start a conversation"
-      />
+      <ProcessTimeline />
     </>
   );
 }

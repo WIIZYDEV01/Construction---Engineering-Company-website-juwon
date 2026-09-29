@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import { ApplicationForm } from '../components/ApplicationForm';
 import { Container } from '../components/Container';
-import { JobCard } from '../components/JobCard';
-import { PageHeader } from '../components/PageHeader';
+import { Hero } from '../components/Hero';
+import { JobList } from '../components/JobList';
+import { Reveal } from '../components/Reveal';
 import { disciplines, jobs, reasons } from '../data/careers';
 import { usePageMeta } from '../hooks/usePageMeta';
 
@@ -26,58 +27,73 @@ export function CareersPage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="Careers"
-        title="Build your future with us."
-        intro="Vertex hires people who want responsibility on live projects. The roles below are open now. If your discipline is not listed, a speculative application is welcome."
+      <Hero
+        kicker="Careers"
+        title="Build work that lasts."
+        lede="Vertex hires people who want responsibility on live projects. The roles below are open now. If your discipline is not listed, a speculative application is welcome."
+        image={{
+          src: '/images/about.jpg',
+          alt: 'Steel fixers working among reinforcement on a concrete slab',
+        }}
       />
 
-      <section className="py-16 md:py-20" aria-labelledby="why-work-heading">
+      <section className="bg-paper py-20 md:py-28" aria-labelledby="why-work-heading">
         <Container>
-          <h2 id="why-work-heading" className="text-3xl font-semibold md:text-4xl">
-            Why work with us
-          </h2>
-          <ul className="mt-10 grid gap-8 md:grid-cols-2">
-            {reasons.map((reason) => (
-              <li key={reason.title} className="border-t border-navy pt-5">
-                <h3 className="text-xl font-semibold">{reason.title}</h3>
-                <p className="mt-3 text-muted">{reason.text}</p>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
-
-      <section className="border-t border-line bg-light py-16 md:py-20" aria-labelledby="disciplines-heading">
-        <Container>
-          <h2 id="disciplines-heading" className="text-3xl font-semibold">
-            Where people work
-          </h2>
-          <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {disciplines.map((discipline) => (
-              <li key={discipline.title}>
-                <h3 className="text-lg font-semibold">{discipline.title}</h3>
-                <p className="mt-2 text-muted">{discipline.text}</p>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
-
-      <section className="py-16 md:py-20" aria-labelledby="roles-heading">
-        <Container>
-          <div className="flex flex-col gap-3 border-b border-line pb-6 sm:flex-row sm:items-end sm:justify-between">
-            <h2 id="roles-heading" className="text-3xl font-semibold">
-              Open positions
+          <Reveal>
+            <p className="kicker text-ink">Why Vertex</p>
+            <h2 id="why-work-heading" className="display mt-5 max-w-[14em] text-[clamp(2.4rem,4.5vw,4.4rem)] text-ink">
+              Responsibility on work that is technically serious.
             </h2>
-            <p className="text-sm text-muted">{jobs.length} roles currently open</p>
-          </div>
-          <div>
-            {jobs.map((job) => (
-              <JobCard key={job.id} job={job} onApply={onApply} />
-            ))}
-          </div>
-          <div className="mt-12">
+            <ul className="mt-14">
+              {reasons.map((reason, index) => (
+                <li key={reason.title} className="grid gap-3 border-t border-ink/15 py-8 md:grid-cols-12 md:gap-8">
+                  <p className="kicker text-ink/70 md:col-span-2">{String(index + 1).padStart(2, '0')}</p>
+                  <h3 className="display text-3xl text-ink md:col-span-4 md:text-4xl">{reason.title}</h3>
+                  <p className="text-sm leading-relaxed text-body md:col-span-6">{reason.text}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </Container>
+      </section>
+
+      <section className="bg-sand py-20 md:py-28" aria-labelledby="culture-heading">
+        <Container>
+          <Reveal>
+            <p className="kicker text-ink">Culture</p>
+            <h2 id="culture-heading" className="display mt-5 max-w-[12em] text-[clamp(2.4rem,4.5vw,4.4rem)] text-ink">
+              Where people work.
+            </h2>
+            <ul className="mt-14 grid gap-12 md:grid-cols-2">
+              {disciplines.map((discipline) => (
+                <li key={discipline.title} className="border-t border-ink/15 pt-6">
+                  <h3 className="display text-4xl text-ink">{discipline.title}</h3>
+                  <p className="mt-4 max-w-md text-sm leading-relaxed text-body">{discipline.text}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </Container>
+      </section>
+
+      <section className="bg-paper py-20 md:py-28" aria-labelledby="opportunities-heading">
+        <Container>
+          <Reveal>
+            <p className="kicker text-ink">Opportunities</p>
+            <h2 id="opportunities-heading" className="display mt-5 max-w-[14em] text-[clamp(2.4rem,4.5vw,4.4rem)] text-ink">
+              Progression follows work you have actually delivered.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-body">
+              Engineers become package leads. Site managers become construction managers. Open roles are listed below. A speculative application is welcome when your discipline is not on the list.
+            </p>
+          </Reveal>
+
+          <div className="mt-14">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <h3 className="display text-3xl text-ink md:text-4xl">Open roles</h3>
+              <p className="text-sm text-body/70">{jobs.length} roles currently open</p>
+            </div>
+            <JobList jobs={jobs} onApply={onApply} />
             <ApplicationForm positionId={positionId} formRef={formRef} />
           </div>
         </Container>

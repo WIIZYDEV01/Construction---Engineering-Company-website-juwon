@@ -403,3 +403,21 @@ export function filterProjects(filter: ProjectFilter) {
   if (filter === 'All') return projects;
   return projects.filter((project) => project.filter === filter);
 }
+
+export function formatPlace(location: string) {
+  return location.replace(/,\s+/g, ' / ');
+}
+
+export function projectIndex(slug: string) {
+  const index = projects.findIndex((project) => project.slug === slug);
+  if (index < 0) return '';
+  return String(index + 1).padStart(2, '0');
+}
+
+export function getNextProject(slug: string) {
+  const index = projects.findIndex((project) => project.slug === slug);
+  if (index < 0) return undefined;
+  return projects[(index + 1) % projects.length];
+}
+
+export const homeProjects = featuredProjects.slice(0, 3);
